@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Popup Notification Like Facebook using PHP AJAX Bootstrap</title>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
+
+<style media="screen">
+
+        #alert-popover
+
+        {
+
+        display: block;
+
+        position: absolute;
+
+        bottom: 50px;
+
+        left: 50px;
+
+        }
+
+        .wrapper
+
+        {
+
+        display: table-cell;
+
+        vertical-align: bottom;
+
+        height: auto;
+
+        width: 200px;
+
+        }
+
+        .alert-default
+
+      {
+
+              color: #333333;
+
+              background: #f2f2f2;
+
+              border-color: #cccccc;
+
+              }
+
+</style>
+
+</head>
+
+<body>
+
+<br/><br/>
+
+<div class="container">
+
+<br>
+
+<h2>Facebook Style Notification Using PHP Ajax & Bootstrap</h2>
+
+<br>
+
+<!-- Form  -->
+
+<form id="comment_form" method="post">
+
+<div class="form-group">
+
+<label>Enter Subject</label>
+
+<input type="text" name="subject" id="subject" class="form-control"/>
+
+</div>
+
+<div class="form-group">
+
+<label>Enter Comment</label>
+
+<textarea name="comment" id="comment" class="form-control"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<input type="submit" name="post" id="post" class="btn btn-info" value="Post"/>
+
+</div>
+
+</form>
+
+<!-- Form berakhir disini  -->
+
+
+
+<div id="alert-popover">
+
+<div class="wrapper">
+
+<div class="content">
+
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+<script>
+
+  $(document).ready(function(){
+
+
+
+          setInterval(function(){
+
+          load_last_notification();
+
+          }, 10000);
+
+
+
+          function load_last_notification()
+
+          {
+
+          $.ajax({
+
+          url:"fetch.php",
+
+          method:"POST",
+
+          success:function(data)
+
+          {
+
+          $('.content').html(data);
+
+          }
+
+          })
+
+          }
+
+
+
+          $('#comment_form').on('submit', function(event){
+
+          event.preventDefault();
+
+          if ($('#subject').val() != '' && $('#comment').val() != '')
+
+          {
+
+          var form_data = $(this).serialize();
+
+          $.ajax({
+
+          url:"insert.php",
+
+          method:"POST",
+
+          data:form_data,
+
+          success:function(data)
+
+          {
+
+          $('#comment_form')[0].reset();
+
+          }
+
+          })
+
+          }
+
+          else
+
+          {
+
+          alert("Both Fields are Required");
+
+          }
+
+          });
+
+          });
+
+</script>
